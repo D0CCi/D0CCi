@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320" role="img" aria-label="Delivery pipeline: messages flow from the campaign API through Apache Kafka into an idempotent consumer; a redelivered duplicate is skipped at the Redis dedup gate, a failed LLM call goes to the DLQ, and every message reaches Telegram exactly once">
+  <title>At-least-once in, exactly-once effect out</title>
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070B13"/>
+      <stop offset="100%" stop-color="#0A1720"/>
+    </linearGradient>
+    <linearGradient id="wire" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ADD8" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#5EEAD4" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#00ADD8" stop-opacity="0.15"/>
+    </linearGradient>
+    <pattern id="pgrid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0H0V30" fill="none" stroke="#1B3A52" stroke-width="1" opacity="0.22"/>
+    </pattern>
+    <filter id="pglow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="pcard"><rect width="1200" height="320" rx="16"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#pcard)">
+    <rect width="1200" height="320" fill="url(#pbg)"/>
+    <rect width="1200" height="320" fill="url(#pgrid)"/>
+    <rect width="1200" height="320" fill="none" stroke="#17303F" stroke-width="2" rx="16"/>
+
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+      <text x="40" y="44" font-size="12" letter-spacing="3.6" fill="#5EEAD4">DELIVERY CONTOUR &#183; LIVE</text>
+      <text x="40" y="66" font-family="Inter, 'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="700" fill="#D7E7F0">At-least-once in. Exactly-once effect out.</text>
+    </g>
+
+    <!-- wires -->
+    <line x1="210" y1="150" x2="840" y2="150" stroke="url(#wire)" stroke-width="2"/>
+    <path d="M660 185 V238" stroke="#7C5CFF" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.6" fill="none"/>
+    <path d="M760 165 Q800 165 800 205 Q800 238 840 250" stroke="#5EEAD4" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.45" fill="none">
+      <animate attributeName="stroke-dashoffset" values="40;0" dur="2s" repeatCount="indefinite"/>
+    </path>
+
+    <g font-family="Inter, 'Segoe UI', system-ui, sans-serif">
+      <!-- producer -->
+      <rect x="40" y="115" width="170" height="70" rx="10" fill="#0B1E2B" stroke="#235A76" stroke-width="1.5"/>
+      <text x="125" y="145" text-anchor="middle" font-size="15" font-weight="700" fill="#D7E7F0">Campaign API</text>
+      <text x="125" y="165" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#5D7A8C">Go &#183; Gin &#183; gRPC</text>
+
+      <!-- kafka -->
+      <rect x="270" y="105" width="220" height="90" rx="10" fill="#0B1E2B" stroke="#00ADD8" stroke-width="1.5"/>
+      <text x="380" y="127" text-anchor="middle" font-size="15" font-weight="700" fill="#D7E7F0">Apache Kafka</text>
+      <g font-family="ui-monospace, monospace" font-size="10" text-anchor="middle" fill="#5D7A8C">
+        <rect x="288" y="138" width="28" height="22" rx="3" fill="#12303F" stroke="#1E4A63"/><text x="302" y="153">38</text>
+        <rect x="320" y="138" width="28" height="22" rx="3" fill="#12303F" stroke="#1E4A63"/><text x="334" y="153">39</text>
+        <rect x="352" y="138" width="28" height="22" rx="3" fill="#12303F" stroke="#1E4A63"/><text x="366" y="153">40</text>
+        <rect x="384" y="138" width="28" height="22" rx="3" fill="#12303F" stroke="#1E4A63"/><text x="398" y="153">41</text>
+        <rect x="416" y="138" width="28" height="22" rx="3" fill="#12303F" stroke="#1E4A63"/><text x="430" y="153">42</text>
+        <rect x="448" y="138" width="28" height="22" rx="3" fill="#12303F" stroke="#1E4A63"/><text x="462" y="153">43</text>
+      </g>
+      <!-- committed-offset marker: advances one cell per cycle, only after a successful send -->
+      <g>
+        <path d="M302 166 l-5 8 h10 z" fill="#5EEAD4"/>
+        <animateTransform attributeName="transform" type="translate" calcMode="discrete"
+          values="0 0;32 0;64 0;96 0;128 0;160 0" keyTimes="0;0.2267;0.3933;0.56;0.7267;0.8933" dur="54s" repeatCount="indefinite"/>
+      </g>
+      <text x="380" y="188" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="#476E86">offset committed after success</text>
+
+      <!-- consumer / dedup gate -->
+      <rect x="560" y="115" width="200" height="70" rx="10" fill="#0B1E2B" stroke="#5EEAD4" stroke-width="1.5"/>
+      <text x="660" y="145" text-anchor="middle" font-size="15" font-weight="700" fill="#D7E7F0">Idempotent consumer</text>
+      <text x="660" y="165" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#5D7A8C">dedup key &#183; Redis Lua</text>
+      <rect x="560" y="115" width="200" height="70" rx="10" fill="none" stroke="#FF6B6B" stroke-width="2" opacity="0">
+        <animate attributeName="opacity" values="0;0;0.9;0;0" keyTimes="0;0.54;0.57;0.66;1" dur="9s" repeatCount="indefinite"/>
+      </rect>
+
+      <!-- telegram -->
+      <rect x="840" y="115" width="170" height="70" rx="10" fill="#0B1E2B" stroke="#235A76" stroke-width="1.5"/>
+      <text x="925" y="145" text-anchor="middle" font-size="15" font-weight="700" fill="#D7E7F0">Telegram API</text>
+      <text x="925" y="165" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#5D7A8C">rate limits &#183; rotation</text>
+      <rect x="840" y="115" width="170" height="70" rx="10" fill="none" stroke="#5EEAD4" stroke-width="2" opacity="0">
+        <animate attributeName="opacity" values="0;0;1;0;0" keyTimes="0;0.34;0.37;0.48;1" dur="9s" repeatCount="indefinite"/>
+      </rect>
+
+      <!-- DLQ + ClickHouse -->
+      <rect x="600" y="238" width="120" height="44" rx="8" fill="#0B1E2B" stroke="#7C5CFF" stroke-width="1.5"/>
+      <text x="660" y="265" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#B9A7FF">DLQ</text>
+      <rect x="600" y="238" width="120" height="44" rx="8" fill="#7C5CFF" opacity="0">
+        <animate attributeName="opacity" values="0;0;0.35;0;0" keyTimes="0;0.86;0.89;0.97;1" dur="9s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="840" y="232" width="170" height="44" rx="8" fill="#0B1E2B" stroke="#C9A227" stroke-width="1.2" opacity="0.9"/>
+      <text x="925" y="259" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#E3C866">ClickHouse &#183; send journal</text>
+    </g>
+
+    <!-- status captions -->
+    <g font-family="ui-monospace, monospace" font-size="11.5" font-weight="700">
+      <text x="925" y="102" text-anchor="middle" fill="#5EEAD4" opacity="0">&#10003; #41 sent once
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.35;0.37;0.5;0.53;1" dur="9s" repeatCount="indefinite"/>
+      </text>
+      <text x="660" y="102" text-anchor="middle" fill="#FF6B6B" opacity="0">&#10005; #41 redelivered &#8594; skipped
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.55;0.57;0.7;0.73;1" dur="9s" repeatCount="indefinite"/>
+      </text>
+      <text x="588" y="264" text-anchor="end" fill="#B9A7FF" opacity="0">#42 LLM timeout &#8594; retry later
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.8;0.82;0.95;0.98;1" dur="9s" repeatCount="indefinite"/>
+      </text>
+    </g>
+
+    <!-- packets -->
+    <!-- #41: the real send -->
+    <circle r="7" fill="#5EEAD4" filter="url(#pglow)" opacity="0">
+      <animateMotion path="M210 150 H840" keyPoints="0;0;1;1" keyTimes="0;0.02;0.35;1" calcMode="linear" dur="9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.34;0.38;1" dur="9s" repeatCount="indefinite"/>
+    </circle>
+    <!-- #41 again: broker redelivery, stopped at the gate -->
+    <circle r="7" fill="#F2B84B" filter="url(#pglow)" opacity="0">
+      <animateMotion path="M476 150 H572" keyPoints="0;0;1;1" keyTimes="0;0.44;0.56;1" calcMode="linear" dur="9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.44;0.46;0.58;0.66;1" dur="9s" repeatCount="indefinite"/>
+      <animate attributeName="fill" values="#F2B84B;#F2B84B;#FF6B6B;#FF6B6B" keyTimes="0;0.555;0.565;1" dur="9s" repeatCount="indefinite"/>
+    </circle>
+    <!-- #42: external failure, parked in DLQ -->
+    <circle r="7" fill="#7C5CFF" filter="url(#pglow)" opacity="0">
+      <animateMotion path="M476 150 H660 V250" keyPoints="0;0;1;1" keyTimes="0;0.72;0.89;1" calcMode="linear" dur="9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.72;0.74;0.88;0.93;1" dur="9s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- legend -->
+    <g font-family="ui-monospace, monospace" font-size="11" fill="#8FB6CC">
+      <circle cx="1050" cy="124" r="5" fill="#5EEAD4"/><text x="1064" y="128">message</text>
+      <circle cx="1050" cy="150" r="5" fill="#F2B84B"/><text x="1064" y="154">redelivery</text>
+      <circle cx="1050" cy="176" r="5" fill="#7C5CFF"/><text x="1064" y="180">failed call</text>
+    </g>
+    <text x="1160" y="300" text-anchor="end" font-family="ui-monospace, monospace" font-size="10.5" fill="#476E86">~4K RPS peak &#183; ~200 workers &#183; 0 duplicate sends</text>
+  </g>
+</svg>

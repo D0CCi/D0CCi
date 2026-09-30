@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 142" width="1200" height="142" role="img" aria-label="7M+ Telegram channels processed, ~4K RPS peak, 20x faster data collection, zero duplicate sends on Kafka redelivery, billing month-close cut from days to hours">
+  <title>Impact shipped to production</title>
+  <defs>
+    <linearGradient id="mbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#080D16"/>
+      <stop offset="100%" stop-color="#0A1720"/>
+    </linearGradient>
+    <linearGradient id="num" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8FF0FF"/>
+      <stop offset="100%" stop-color="#00ADD8"/>
+    </linearGradient>
+    <linearGradient id="tick" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5EEAD4"/>
+      <stop offset="100%" stop-color="#5EEAD4" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="mcard"><rect width="1200" height="142" rx="16"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#mcard)">
+    <rect width="1200" height="142" fill="url(#mbg)"/>
+    <rect width="1200" height="142" fill="none" stroke="#17303F" stroke-width="2" rx="16"/>
+
+    <g stroke="#152E3D" stroke-width="1">
+      <line x1="240" y1="34" x2="240" y2="108"/>
+      <line x1="480" y1="34" x2="480" y2="108"/>
+      <line x1="720" y1="34" x2="720" y2="108"/>
+      <line x1="960" y1="34" x2="960" y2="108"/>
+    </g>
+
+    <g font-family="Inter, 'Segoe UI', system-ui, -apple-system, sans-serif" text-anchor="middle">
+
+      <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0.05s" fill="freeze"/>
+        <rect x="70" y="30" width="100" height="2" rx="1" fill="url(#tick)"/>
+        <text x="120" y="76" font-size="34" font-weight="800" fill="url(#num)">7M+</text>
+        <text x="120" y="100" font-size="12.5" font-weight="600" fill="#9BB6C9">Telegram channels processed</text>
+        <text x="120" y="118" font-size="11.5" fill="#5D7A8C">Kafka &#183; PostgreSQL &#183; ClickHouse</text>
+      </g>
+
+      <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0.20s" fill="freeze"/>
+        <rect x="310" y="30" width="100" height="2" rx="1" fill="url(#tick)"/>
+        <text x="360" y="76" font-size="34" font-weight="800" fill="url(#num)">~4K RPS</text>
+        <text x="360" y="100" font-size="12.5" font-weight="600" fill="#9BB6C9">peak on the pipeline</text>
+        <text x="360" y="118" font-size="11.5" fill="#5D7A8C">~200 concurrent workers</text>
+      </g>
+
+      <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0.35s" fill="freeze"/>
+        <rect x="550" y="30" width="100" height="2" rx="1" fill="url(#tick)"/>
+        <text x="600" y="76" font-size="34" font-weight="800" fill="url(#num)">20&#215;</text>
+        <text x="600" y="100" font-size="12.5" font-weight="600" fill="#9BB6C9">faster data collection</text>
+        <text x="600" y="118" font-size="11.5" fill="#5D7A8C">Redis cache &#183; pprof &#183; conn reuse</text>
+      </g>
+
+      <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0.50s" fill="freeze"/>
+        <rect x="790" y="30" width="100" height="2" rx="1" fill="url(#tick)"/>
+        <text x="840" y="76" font-size="34" font-weight="800" fill="url(#num)">0 dupes</text>
+        <text x="840" y="100" font-size="12.5" font-weight="600" fill="#9BB6C9">on Kafka redelivery</text>
+        <text x="840" y="118" font-size="11.5" fill="#5D7A8C">at-least-once + idempotent consumer</text>
+      </g>
+
+      <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0.65s" fill="freeze"/>
+        <rect x="1030" y="30" width="100" height="2" rx="1" fill="url(#tick)"/>
+        <text x="1080" y="76" font-size="26" font-weight="800" fill="url(#num)">days &#8594; hours</text>
+        <text x="1080" y="100" font-size="12.5" font-weight="600" fill="#9BB6C9">billing month-close</text>
+        <text x="1080" y="118" font-size="11.5" fill="#5D7A8C">2 000+ railcars, built from scratch</text>
+      </g>
+
+    </g>
+  </g>
+</svg>
